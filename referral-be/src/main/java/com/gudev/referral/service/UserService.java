@@ -1,16 +1,16 @@
 package com.gudev.referral.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.gudev.referral.exception.CodeNotFoundException;
 import com.gudev.referral.exception.MaxPersonCountException;
 import com.gudev.referral.exception.UserNotFoundException;
 import com.gudev.referral.model.User;
 import com.gudev.referral.repository.UserRepository;
 import com.gudev.referral.util.RandomStringGenerator;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.Max;
-import java.util.List;
 
 @Service
 public class UserService {
@@ -39,7 +39,14 @@ public class UserService {
         if (!repository.existsUserByReferralCode(referralCode)) {
             throw new UserNotFoundException(" user not found with given code!");
         }
-        return repository.findAllByReferredByCode(referralCode);
+        return repository.findAllByReferralCode(referralCode);
+    }
+    
+    public List<User> getAllByReferredCode(String referredCode) {
+        if (!repository.existsUserByReferralCode(referredCode)) {
+            throw new UserNotFoundException(" user not found with given code!");
+        }
+        return repository.findAllByReferredByCode(referredCode);
     }
 
     public User createUser(User user) {
@@ -48,7 +55,7 @@ public class UserService {
             throw new CodeNotFoundException("referral code not found");
         }
 
-        int referredUserCount = getAllByReferralCode(user.getReferredByCode()).size();
+        int referredUserCount = getAllByReferredCode(user.getReferredByCode()).size();
         if (referredUserCount < defaultRefCount) {
             user.setReferralCode(generateCode());
         } else {
