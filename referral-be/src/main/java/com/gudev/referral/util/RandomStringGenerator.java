@@ -1,21 +1,18 @@
 package com.gudev.referral.util;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import java.security.SecureRandom;
 import java.util.Collections;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 @Component
 public class RandomStringGenerator {
 
     @Value("${codeLength}")
-    private int codeLegnth;
+    private int codeLength;
 
     public String generate() {
-
-        SecureRandom random = new SecureRandom();
         String generated = "";
 
         var letters = "abcdefghijklmnopqrstyvwz0123456789"
@@ -26,11 +23,9 @@ public class RandomStringGenerator {
 
         Collections.shuffle(letters);
 
-        for (int i = 0; i < codeLegnth; i++) {
+        for (int i = 0; i < codeLength; i++) {
             generated += letters.get(i);
         }
         return generated;
     }
-
-
 }

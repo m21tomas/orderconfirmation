@@ -31,12 +31,18 @@ public class ReferralApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        User user = User.builder()
-                .name("gurkan")
-                .username("grkn")
-                .surname("surname")
-                .referralCode(randomStringGenerator.generate())
-                .build();
-        userRepository.save(user);
+    	User existingUser = userRepository.findByUsername("grkn").orElse(null);
+    	if(existingUser == null) {
+	        User user = User.builder()
+	                .name("gurkan")
+	                .username("grkn")
+	                .surname("surname")
+	                .referralCode(randomStringGenerator.generate())
+	                .build();
+	        userRepository.save(user);
+    	} else if (existingUser.getReferralCode().length()<5) {
+    		existingUser.setReferralCode(randomStringGenerator.generate());
+    		userRepository.save(existingUser);
+    	}
     }
 }
