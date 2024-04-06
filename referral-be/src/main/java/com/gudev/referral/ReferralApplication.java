@@ -30,16 +30,17 @@ public class ReferralApplication implements CommandLineRunner {
     RandomStringGenerator randomStringGenerator;
 
     @Override
+    // THIS is the first created user
     public void run(String... args) throws Exception {
     	User existingUser = userRepository.findByUsername("grkn").orElse(null);
     	if(existingUser == null) {
-	        User user = User.builder()
-	                .name("gurkan")
-	                .username("grkn")
-	                .surname("surname")
-	                .referralCode(randomStringGenerator.generate())
-	                .build();
-	        userRepository.save(user);
+	        User usr = new User();
+	             usr.setName("gurkan");
+	             usr.setName("grkn");
+	             usr.setSurname("surname");
+	             usr.setReferralCode(randomStringGenerator.generate());
+	             
+	        userRepository.save(usr);
     	} else if (existingUser.getReferralCode().length()<5) {
     		existingUser.setReferralCode(randomStringGenerator.generate());
     		userRepository.save(existingUser);

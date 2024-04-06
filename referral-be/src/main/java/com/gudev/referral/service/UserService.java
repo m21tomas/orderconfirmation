@@ -56,7 +56,7 @@ public class UserService {
         }
 
         int referredUserCount = getAllByReferredCode(user.getReferredByCode()).size();
-        if (referredUserCount < defaultRefCount) {
+        if (referredUserCount < defaultRefCount) { // Only two refferals may be created because
             user.setReferralCode(generateCode());
         } else {
             throw new MaxPersonCountException("max person count has been reached!");
