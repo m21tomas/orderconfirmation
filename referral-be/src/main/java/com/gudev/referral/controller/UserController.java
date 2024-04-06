@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.validation.Valid;
 
 @RestController
@@ -31,10 +34,17 @@ public class UserController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @GetMapping("/{referralCode}")
+    @GetMapping("/referral/{referralCode}")
     public ResponseEntity<?> getAllByReferralCode(@PathVariable String referralCode) {
-        final var userDTOs = userService.getAllByReferralCode(referralCode)
-                .stream().map(x -> modelMapper.map(x, UserDto.class));
+        final List<UserDto> userDTOs = userService.getAllByReferralCode(referralCode)
+                .stream().map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
+        return ResponseEntity.ok(userDTOs);
+    }
+    
+    @GetMapping("/referred/{referredCode}")
+    public ResponseEntity<?> getAllByReferredCode(@PathVariable String referredCode) {
+        final List<UserDto> userDTOs = userService.getAllByReferredCode(referredCode)
+                .stream().map(x -> modelMapper.map(x, UserDto.class)).collect(Collectors.toList());
         return ResponseEntity.ok(userDTOs);
     }
 
