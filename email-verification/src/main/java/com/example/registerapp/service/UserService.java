@@ -33,6 +33,7 @@ public class UserService {
     user.setName(registerDto.getName());
     user.setEmail(registerDto.getEmail());
     user.setPassword(registerDto.getPassword());
+    user.setActive(false);
     user.setOtp(otp);
     user.setOtpGeneratedTime(LocalDateTime.now());
     userRepository.save(user);

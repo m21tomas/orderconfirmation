@@ -37,14 +37,14 @@ public class UserService {
 
     public List<User> getAllByReferralCode(String referralCode) {
         if (!repository.existsUserByReferralCode(referralCode)) {
-            throw new UserNotFoundException(" user not found with given code!");
+            throw new UserNotFoundException("User not found with the given referral code!");
         }
         return repository.findAllByReferralCode(referralCode);
     }
     
     public List<User> getAllByReferredCode(String referredCode) {
         if (!repository.existsUserByReferralCode(referredCode)) {
-            throw new UserNotFoundException(" user not found with given code!");
+            throw new UserNotFoundException("User not found with the given reference code!");
         }
         return repository.findAllByReferredByCode(referredCode);
     }
@@ -73,6 +73,4 @@ public class UserService {
 
         return generated;
     }
-
-
 }
